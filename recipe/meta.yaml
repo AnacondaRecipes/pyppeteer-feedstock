@@ -13,26 +13,28 @@ source:
     - 0001-use-certifi.patch
 
 build:
-  noarch: python
   number: 0
   entry_points:
     - pyppeteer-install = pyppeteer.command:install
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vvv --no-deps
+  skip: True  # [py<36]
 
 requirements:
   build:
     - patch     # [not win]
     - m2-patch  # [win]
   host:
-    - python >=3.6
+    - python
     - pip
+    - setuptools
+    - wheel
     - poetry-core
   run:
     - appdirs >=1.4.3,<2.0.0
     - certifi
     - importlib-metadata >=1.4
     - pyee >=8.1.0,<9.0.0
-    - python >=3.6
+    - python
     - tqdm >=4.42.1,<5.0.0
     - urllib3 >=1.25.8,<2.0.0
     - websockets >=9.1,<10.0
