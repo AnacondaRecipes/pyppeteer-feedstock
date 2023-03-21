@@ -1,5 +1,5 @@
 {% set name = "pyppeteer" %}
-{% set version = "0.2.6" %}
+{% set version = "1.0.2" %}
 
 
 package:
@@ -8,34 +8,36 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pyppeteer-{{ version }}.tar.gz
-  sha256: 4621bb890e54f43dce84f5139ea4d484a62886be1903c2fcb393af607943538f
-  patches:
-    - 0001-use-certifi.patch
+  sha256: ddb0d15cb644720160d49abb1ad0d97e87a55581febf1b7531be9e983aad7742
+  #  patches:
+  #    - 0001-use-certifi.patch
 
 build:
-  noarch: python
   number: 0
   entry_points:
     - pyppeteer-install = pyppeteer.command:install
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vvv --no-deps
+  skip: True  # [py<36]
 
 requirements:
-  build:
-    - patch     # [not win]
-    - m2-patch  # [win]
+  # build:
+  #  - patch     # [not win]
+  #  - m2-patch  # [win]
   host:
-    - python >=3.6
+    - python
     - pip
+    - setuptools
+    - wheel
     - poetry-core
   run:
     - appdirs >=1.4.3,<2.0.0
     - certifi
     - importlib-metadata >=1.4
     - pyee >=8.1.0,<9.0.0
-    - python >=3.6
+    - python
     - tqdm >=4.42.1,<5.0.0
     - urllib3 >=1.25.8,<2.0.0
-    - websockets >=9.1,<10.0
+    - websockets >=10.0,<11.0
 
 test:
   requires:
@@ -54,7 +56,8 @@ about:
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: Headless chrome/chromium automation library (unofficial port of puppeteer)
+  description: |
+    Headless chrome/chromium automation library (unofficial port of puppeteer).
   doc_url: https://pyppeteer.github.io/pyppeteer
   dev_url: https://github.com/pyppeteer/pyppeteer
 
