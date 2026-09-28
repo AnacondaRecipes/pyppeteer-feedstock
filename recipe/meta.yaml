@@ -14,15 +14,12 @@ source:
 
 build:
   noarch: python
-  number: 0
+  number: 1
   entry_points:
     - pyppeteer-install = pyppeteer.command:install
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
-  build:
-    - patch     # [not win]
-    - m2-patch  # [win]
   host:
     - python >=3.6
     - pip
